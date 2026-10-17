@@ -90,3 +90,32 @@ jobs:
       
       - store_artifacts:
           path: target/surefire-reports
+
+  # ==========================================
+  # PUBLISH JOB - Build and push Docker image
+  # ==========================================
+  publish:
+    docker:
+      - image: cimg/base:stable
+    
+    steps:
+      - checkout
+      
+      - attach_workspace:
+          at: .
+      
+      - setup_remote_docker
+      
+      - run:
+          name: Build Docker image
+          command: |
+            echo "Building Docker image..."
+            docker build -t $DOCKER_USERNAME/simple-crm-lite:latest .
+      
+      - run:
+          name: Push to Docker Hub
+          command: |
+            echo "Logging in to Docker Hub..."
+            echo $DOCKER_TOKEN | docker login -u $DOCKER_USERNAME --password-stdin
+            echo "Pushing image to Docker Hub..."
+            docker push $DOCKER_USERNAME/simple-crm-lite:latest
