@@ -11,6 +11,13 @@ COPY pom.xml .
 # Download dependencies (cached if pom.xml doesn't change)
 RUN mvn dependency:go-offline -B
 
+# Explanation of mvn dependency:go-offline
+# This is a Maven Dependency Plugin goal. It analyzes your project's configuration file (pom.xml) and pre-downloads every library, plugin, and core dependency into the container's local .m2 repository.
+
+# -B 
+#  Tells Apache Maven to run in batch (non-interactive) mode. It stops Maven from outputting unnecessary download progress logs (like thousands of Transferring... lines) and prevents the build from hanging by automatically accepting default options instead of pausing for user input.
+
+
 # Copy source code
 COPY src ./src
 

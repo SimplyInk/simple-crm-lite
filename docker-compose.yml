@@ -7,8 +7,8 @@ services:
     container_name: simple-crm-lite-db
     environment:
       POSTGRES_DB: simplecrmlite
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
+      POSTGRES_USER: ${SPRING_DATASOURCE_USERNAME}
+      POSTGRES_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
     ports:
       - "5432:5432"
     volumes:
@@ -30,9 +30,9 @@ services:
     ports:
       - "8080:8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/simplecrmlite
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL} #jdbc:postgresql://db:5432/simplecrmlite
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME} #postgres
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD} #password
     depends_on:
       db:
         condition: service_healthy
